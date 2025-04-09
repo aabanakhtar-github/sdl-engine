@@ -3,6 +3,8 @@
 #include <cstdint>
 
 namespace video {
+    using Rect = SDL_FRect;
+
     struct Window {
         SDL_Window *window = nullptr;
 
@@ -16,7 +18,9 @@ namespace video {
             Renderer(Window& window);
             ~Renderer(); 
 
-            void draw();
+            bool init();
+            void drawTexture(struct Texture& t, Rect& source, Rect& destination, double angle = 0);
+            void clear();
         private:
             Window& surface;
             SDL_Renderer* renderer = nullptr;
