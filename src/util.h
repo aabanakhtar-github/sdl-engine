@@ -6,6 +6,6 @@ public:                                                                        \
   }                                                                            \
                                                                                \
 private:  \
-  classname();                                                                     \
+  classname() = default;                                                                     \
   classname &operator=(const classname &) = delete;                            \
   classname(const classname &) = delete;

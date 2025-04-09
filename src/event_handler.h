@@ -1,21 +1,19 @@
-#include "SDL_events.h"
+#include "SDL3/SDL.h"
 #include <cstdint>
 #include <unordered_map>
+#include <functional> 
+#include <vector>
 #include "util.h" 
-
-struct UserEvent {
-    bool isValidEvent;
-    const std::uint32_t ID;
-    
-    UserEvent(bool valid, std::uint32_t ID) 
-        : isValidEvent(valid), ID(ID) {}
-};
 
 class EventScheduler {
         MAKE_SINGLETON(EventScheduler)
     public:
-
+        using EventCallback = std::function<void(SDL_Event&)>;
         
-    private:
+        void poll(); 
+        void bind(SDL_EventType e, const EventCallback& callback); 
 
-}
+    private:
+        std::unordered_map<SDL_EventType, std::vector<EventCallback>>
+            bindings;
+};

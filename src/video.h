@@ -1,4 +1,5 @@
 #include "SDL3/SDL.h"
+#include "texture.h"
 #include <string>
 #include <cstdint>
 
@@ -19,7 +20,7 @@ namespace video {
             ~Renderer(); 
 
             bool init();
-            void drawTexture(struct Texture& t, Rect& source, Rect& destination, double angle = 0);
+            void drawTexture(class ::Texture& t, Rect& source, Rect& destination, double angle = 0);
             void clear();
         private:
             Window& surface;

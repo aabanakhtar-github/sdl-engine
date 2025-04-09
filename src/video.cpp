@@ -1,6 +1,7 @@
 #include "video.h"
 #include "texture.h"
-#include <exception> 
+
+using namespace video;
 
 bool video::Window::init(std::uint32_t w, std::uint32_t h, const std::string& name) {
     window = SDL_CreateWindow(name.data(), w, h, 0);
