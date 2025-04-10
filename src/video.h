@@ -14,17 +14,16 @@ namespace video {
     };
 
 
-    class Renderer { 
-        public:
-            Renderer(Window& window);
-            ~Renderer(); 
+    struct Renderer { 
+        Window& surface;
+        SDL_Renderer* renderer = nullptr;
 
-            bool init();
-            void drawTexture(class ::Texture& t, Rect& source, Rect& destination, double angle = 0);
-            void clear();
-        private:
-            Window& surface;
-            SDL_Renderer* renderer = nullptr;
+        Renderer(Window& window);
+        ~Renderer(); 
+
+        bool init();
+        void drawTexture(class ::Texture& t, Rect& source, Rect& destination, double angle = 0);
+        void clear();
     };
 
 }
