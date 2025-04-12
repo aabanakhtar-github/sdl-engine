@@ -1,10 +1,10 @@
-#include "event_handler.h"
+#include "scheduler.h"
 
-void EventScheduler::bind(SDL_EventType e, const EventCallback& callback) {
+void Scheduler::bind(SDL_EventType e, const EventCallback& callback) {
     bindings[e].push_back(callback);
 }
 
-void EventScheduler::poll() {
+void Scheduler::poll() {
     SDL_Event current_event; 
 
     while (SDL_PollEvent(&current_event)) {
@@ -16,4 +16,12 @@ void EventScheduler::poll() {
             } 
         }
     }
+
+    for (auto& func : update_functions) {
+        func(0);
+    }
+}
+
+void Scheduler::bindUpdateFunction(const UpdateCallback& callback) {
+    update_functions.push_back(callback);
 }

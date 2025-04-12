@@ -34,8 +34,8 @@ add_executable(opengl-engine WIN32
     src/engine.h 
     src/video.h 
     src/video.cpp 
-    src/event_handler.cpp 
-    src/event_handler.h 
+    src/scheduler.cpp 
+    src/scheduler.h 
     src/texture.h 
     src/texture.cpp
 )

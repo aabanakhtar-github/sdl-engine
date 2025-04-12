@@ -1,11 +1,15 @@
-#define MAKE_SINGLETON(classname)                                              \
-public:                                                                        \
-  static classname &get() {                                                    \
-    static classname s_instance;                                               \
-    return s_instance;                                                         \
-  }                                                                            \
-                                                                               \
-private:  \
-  classname() = default;                                                                     \
-  classname &operator=(const classname &) = delete;                            \
-  classname(const classname &) = delete;
+#pragma once
+
+// AI GENERATED !!!!
+#define MAKE_SINGLETON(classname)                    \
+public:                                              \
+    static classname& get() {                        \
+        static classname instance;                   \
+        return instance;                             \
+    }                                                 \
+private:                                             \
+    classname() = default;                           \
+    classname(const classname&) = delete;            \
+    classname& operator=(const classname&) = delete; \
+    classname(classname&&) = delete;                 \
+    classname& operator=(classname&&) = delete;
