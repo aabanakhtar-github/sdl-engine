@@ -2,6 +2,9 @@
 cmake_minimum_required(VERSION 3.5)
 project(opengl-engine)
 
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
 include(FetchContent)
 FetchContent_Declare(
     SDL3
