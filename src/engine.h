@@ -1,8 +1,7 @@
 #pragma once
 
-namespace core {
-
-    void init(); 
-    void quit(); 
-
+namespace core
+{
+    [[nodiscard]] bool init();
+    void quit();
 }

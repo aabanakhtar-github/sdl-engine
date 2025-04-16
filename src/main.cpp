@@ -1,37 +1,54 @@
+#include <entt/entity/registry.hpp>
+
+#include "components.h"
 #include "SDL3/SDL.h"
 #include "SDL3/SDL_main.h"
 #include "engine.h"
 #include "scheduler.h"
 #include "video.h"
 #include "iostream"
+#include "systems.h"
+#include "texture_registry.h"
 
 
-int main(int argc, char *argv[]) {
-    core::init();
-    std::cout << "hello world!" << std::endl;
+int main(int argc, char* argv[])
+{
+    if (!core::init())
+    {
+        std::cerr << "Failed to init!" << std::endl;
+        return -1;
+    }
+
     video::Window window;
-    video::Renderer renderer(window); 
-    video::Texture texture; 
+    video::Renderer renderer(window);
+    entt::registry registry;
     bool shouldexit = false;
 
-    Scheduler::get().bind(SDL_EVENT_QUIT, [&](SDL_Event& e) {
+    window.init(500, 500, "Archer Demo");
+    renderer.init();
+
+    if (!TextureRegistry::get().addTexture(renderer, "0", "data/testsprite.png"))
+    {
+        return 1;
+    }
+
+    const auto test = registry.create();
+    registry.emplace<SpriteComponent>(test, "0", video::Rect{0.0, 0.0, 32.0, 32.0}, video::Rect{0.0, 0.0, 32.0, 32.0});
+
+    Scheduler::get().bind(SDL_EVENT_QUIT, [&](SDL_Event& e)
+    {
         shouldexit = true;
     });
 
-    Scheduler::get().bindUpdateFunction([&](float _) {
-        renderer.clear();
-        renderer.drawTexture(texture, video::Rect{0.0, 0.0, 32.0, 32.0}, video::Rect{0, 0, 32, 32});
-        SDL_RenderPresent(renderer.renderer);
+    Scheduler::get().bindUpdateFunction([&](float _)
+    {
+        systems::draw(renderer, registry);
     });
 
-    window.init(500, 500, "test.");
-    renderer.init();
-    if (!texture.init(renderer, "data/testsprite.png")) {
-        std::cout << SDL_GetError() << std::endl;
-    }
-    
-    while (!shouldexit) {
-       Scheduler::get().poll(); 
+
+    while (!shouldexit)
+    {
+        Scheduler::get().poll();
     }
 
     core::quit();
