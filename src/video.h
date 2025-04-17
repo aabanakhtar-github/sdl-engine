@@ -3,6 +3,7 @@
 #include "SDL3/SDL.h"
 #include <string>
 #include <cstdint>
+#include <optional>
 #include <vector>
 
 namespace video
@@ -29,15 +30,31 @@ namespace video
     class Texture
     {
     public:
-        bool init(Renderer& renderer, const std::string& filename);
+        explicit Texture(Renderer& renderer) : renderer(renderer) {}
+        Texture(const Texture& texture);
+        Texture& operator=(Texture texture);
+        Texture(Texture&& texture) noexcept;
+        Texture& operator=(Texture&& texture) noexcept;
+
+        bool init(Renderer &renderer, const std::string& path);
+        std::optional<Texture> clone() const;
+
         ~Texture();
 
         [[nodiscard]] std::uint32_t getWidth() const { return width; }
         [[nodiscard]] std::uint32_t getHeight() const { return height; }
 
+        friend void swap(Texture& a, Texture& b) noexcept
+        {
+            using std::swap;
+            swap(a.width, b.width);
+            swap(a.height, b.height);
+            swap(a.texture, b.texture);
+        }
+
     public:
         SDL_Texture* texture = nullptr;
-
+        Renderer& renderer;
     private:
         std::uint32_t width = 0, height = 0;
     };

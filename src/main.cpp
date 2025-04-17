@@ -42,7 +42,9 @@ int main(int argc, char* argv[])
 
     Scheduler::get().bindUpdateFunction([&](float _)
     {
+        renderer.clear({0, 0, 0, 0});
         systems::draw(renderer, registry);
+        renderer.present();
     });
 
 

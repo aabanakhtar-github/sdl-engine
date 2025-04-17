@@ -3,6 +3,29 @@
 
 namespace video
 {
+    Texture::Texture(const Texture& texture)
+        : Texture(texture.clone().value())
+    {
+    }
+
+    Texture& Texture::operator=(Texture texture)
+    {
+        swap(*this, texture);
+        return *this;
+    }
+
+    Texture::Texture(Texture&& texture) noexcept
+        : renderer(texture.renderer)
+    {
+        swap(*this, texture);
+    }
+
+    Texture& Texture::operator=(Texture&& texture) noexcept
+    {
+        swap(*this, texture);
+        return *this;
+    }
+
     bool Texture::init(Renderer& renderer, const std::string& filename)
     {
         auto surface = IMG_Load(filename.c_str());
@@ -24,6 +47,33 @@ namespace video
 
         SDL_DestroySurface(surface);
         return true;
+    }
+
+    std::optional<Texture> Texture::clone() const
+    {
+        float w, h;
+        SDL_GetTextureSize(texture, &w, &h);
+
+        auto texture = SDL_CreateTexture(renderer.renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, w, h);
+        if (texture == nullptr)
+        {
+            return std::nullopt;
+        }
+        // clear the renderer
+        renderer.clear({0, 0, 0, 0});
+        SDL_SetRenderTarget(renderer.renderer, texture);
+        // upload
+        Rect frame(0, 0, w, h);
+        renderer.drawTexture(*this, frame, frame);
+        // reset
+        renderer.clear({0, 0, 0, 0});
+        SDL_SetRenderTarget(renderer.renderer, nullptr);
+        // return
+        auto ret = Texture(renderer);
+        ret.texture = texture;
+        ret.width = w;
+        ret.height = h;
+        return ret;
     }
 
 
