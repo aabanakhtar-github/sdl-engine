@@ -59,12 +59,19 @@ namespace video
         std::uint32_t width = 0, height = 0;
     };
 
-    struct Window
+    class Window
     {
+    public:
         SDL_Window* window = nullptr;
-
+        
         bool init(std::uint32_t w, std::uint32_t h, const std::string& name);
         ~Window();
+
+        [[nodiscard]] std::uint32_t getWidth() const { return w; }
+        [[nodiscard]] std::uint32_t getHeight() const { return h; }
+    
+    private:
+        std::uint32_t w = 0, h = 0;
     };
 
 

@@ -85,6 +85,8 @@ namespace video
 
     bool Window::init(std::uint32_t w, std::uint32_t h, const std::string& name)
     {
+        this->w = w; 
+        this->h = h;
         window = SDL_CreateWindow(name.data(), w, h, 0);
         return window != nullptr;
     }
