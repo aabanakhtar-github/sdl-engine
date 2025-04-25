@@ -51,5 +51,6 @@ add_executable(opengl-engine WIN32
         src/GameLoop.cpp
         src/GameLoop.h
         src/camera.h
+        src/keyboard.h
 )
 target_link_libraries(opengl-engine PRIVATE SDL3::SDL3 SDL3_image::SDL3_image EnTT::EnTT)
