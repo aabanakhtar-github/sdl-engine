@@ -37,7 +37,7 @@ namespace video
         Texture& operator=(Texture&& texture) noexcept;
 
         bool init(Renderer &renderer, const std::string& path);
-        std::optional<Texture> clone() const;
+        [[nodiscard]] std::optional<Texture> clone() const;
 
         ~Texture();
 
